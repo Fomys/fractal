@@ -19,13 +19,10 @@ A new turtle which is faster.
    :undoc-members:
 """
 
-
 import math
 import time
 
 from PIL import Image, ImageDraw
-
-import tkinter as Tk
 
 
 class Figures():
@@ -118,7 +115,7 @@ class Figures():
             self.canvas.droite(360. / number_of_sides)
             i = i
 
-    def tree(self, length, angles, factor = 1.5, min_size = 5):
+    def tree(self, length, angles, factor=1.5, min_size=5):
         """Draw a tree recursively
 
         :param length: Length of the root of the tree
@@ -135,7 +132,7 @@ class Figures():
         if length < min_size:
             return ""
         else:
-            self.canvas._etat["couleur"]=(int(length), int(length), int(length))
+            self.canvas._etat["couleur"] = (int(length), int(length), int(length))
             for angle in angles:
                 pos = self.canvas.getPosition()
                 anglebase = self.canvas.getAngle()
@@ -145,7 +142,7 @@ class Figures():
                 self.canvas.setPosition(pos)
                 self.canvas.setAngle(anglebase)
 
-    def dragon(self, length, number_of_iteration, angle = 1):
+    def dragon(self, length, number_of_iteration, angle=1):
         """Draw the dragon curve
 
         :param length: Length of a side
@@ -204,36 +201,31 @@ class Figures():
         else:
             self._koch_curve(length)
 
-class Turtle(Tk.Tk):
+
+class Turtle():
 
     ### Fonctions internes ###
 
     def _calcCentre(self, taille):
         return (taille[0] / 2, taille[1] / 2)
 
-
         # self.canvas.update()
 
     def _avance(self, distance):
         AB = (distance * math.cos(math.radians(self._etat.get("angle")))) + \
-            self._etat.get("coordx")
+             self._etat.get("coordx")
         AC = (distance * math.sin(math.radians(self._etat.get("angle")))) + \
-            self._etat.get("coordy")
-        self.canvas.create_line(self._etat.get("coordx"),
-                                self._etat.get("coordy"),
-                                AB,
-                                AC)
-        if self.sauvegarde:
-            self._avanceIMG(distance)
+             self._etat.get("coordy")
+        self._avanceIMG(distance)
         self._setCoords((AB, AC))
         # self.canvas.update()
         # self.canvas.update()
 
     def _avanceIMG(self, distance):
         AB = (distance * math.cos(math.radians(self._etat.get("angle")))) + \
-            self._etat.get("coordx")
+             self._etat.get("coordx")
         AC = (distance * math.sin(math.radians(self._etat.get("angle")))) + \
-            self._etat.get("coordy")
+             self._etat.get("coordy")
         self.draw.line(
             (self.getPosition('x') *
              self.resolution,
@@ -255,8 +247,8 @@ class Turtle(Tk.Tk):
             self._etat["angle"] = self._etat.get("angle") - 360
 
     def _clear(self):
-        self.canvas.delete("all")
-        self.canvas.update()
+        pass
+
     ### Fonction publiques ###
 
     def _clearIMG(self):
@@ -276,12 +268,6 @@ class Turtle(Tk.Tk):
                       "coordy": self._config.get("centre")[1],
                       "couleur": (0, 0, 0),
                       }
-        self.title(self._config.get("titre"))
-        self.canvas = Tk.Canvas(self,
-                                width=self._config.get("taille")[0],
-                                height=self._config.get("taille")[1],
-                                background='white')
-        self.canvas.pack()
         self.fractale = Figures(self)
         self.image = Image.new(
             'RGB',
@@ -290,7 +276,6 @@ class Turtle(Tk.Tk):
              255,
              255))
         self.draw = ImageDraw.Draw(self.image)
-        self.sauvegarde = sauvegarde
         self.resolution = resolution
 
     def avance(self, distance):
@@ -308,21 +293,16 @@ class Turtle(Tk.Tk):
         self._tourne(-angle)
 
     def goto(self, coordonnees):
-        self.canvas.create_line(self._etat.get("coordx"),
-                                self._etat.get("coordy"),
-                                coordonnees[0],
-                                coordonnees[1])
         self._setCoords(coordonnees)
-        if self.sauvegarde:
-            self.draw.line(coordonnees)
+        self.draw.line(coordonnees)
 
     def _setCoords(self, coordonnees):
         self._etat["coordx"] = coordonnees[0]
         self._etat["coordy"] = coordonnees[1]
 
-
     def clear(self):
         self._clear()
+
     # ## Accès aux variables ##
 
     def setPosition(self, coordonnees):
@@ -350,9 +330,10 @@ class Turtle(Tk.Tk):
     def save(self, chemin, typeIMG=None):
         self.image.save(chemin, typeIMG)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     t = Turtle()
     t.Init()
     t.setPosition((0, 0))
     t.fractale.outline(6, 2, 5)
-    t.mainloop()
+    t.save("test.bmp")
