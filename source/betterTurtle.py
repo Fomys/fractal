@@ -309,4 +309,4 @@ if __name__ == "__main__":
     t = Turtle()
     t.set_position((0, 0))
     t.fractal.outline(6, 2, 5)
-    t.save("test.bmp")
+    t.save("test.jpg")
