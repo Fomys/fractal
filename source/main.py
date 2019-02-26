@@ -1,5 +1,5 @@
 from math import atan, cos, sin, pi
-from typing import List, Any, Tuple
+from typing import List, Tuple
 
 from PIL import Image, ImageDraw
 
@@ -9,7 +9,8 @@ A lib to draw fractals on pillow image
 >>> img = Image.new('RGB', (5000, 5000), (0, 0, 0))
 >>> figures = Figures(im=img)
 >>> figures.von_koch_curve_flake((2500, 2500), 2000,6)
->>> img.save("test.bmp")"""
+>>> img.save("test.bmp")
+"""
 
 
 class State:
@@ -97,7 +98,7 @@ class Lsystem(ImageDraw.ImageDraw):
         self.state = self.states[-1]
         del self.states[-1]
 
-    def draw_l(self, start, replacement, constants, nb_recursive, color = (255, 255, 255), width=0):
+    def draw_l(self, start, replacement, constants, nb_recursive, color=(255, 255, 255), width=0):
         """Draw a L system
 
         :param start: Axiome
@@ -179,6 +180,25 @@ class Lsystem(ImageDraw.ImageDraw):
 class Figures(ImageDraw.ImageDraw):
     """A lot of function to create some well-know shapes"""
 
+    def blanc_manger(self, origin, finish, iterations):
+        lenght_theoric = 2 ** iterations
+        length = (((origin[0] - finish[0]) ** 2 + (origin[1] - finish[1]) ** 2) ** 0.5)
+
+        def sawtooth(x):
+            d = x - int(x)
+            if d <= 1 / 2:
+                return d
+            return 1 - d
+
+        def blanc_manger(x, iterations=1):
+            return sum([1 / (2 ** k) * sawtooth((2 ** k) * x) for k in range(iterations)])
+
+        points = [
+            ((i / lenght_theoric) * length,
+             (blanc_manger(i / lenght_theoric, iterations)) * length)
+            for i in range(lenght_theoric + 1)]
+        self.line(points)
+
     def von_koch_curve_flake(self, origin, radius, iterations, angle=0, color=None, width=0):
         """Draw thee von koch flake on image.
 
@@ -248,21 +268,5 @@ class Figures(ImageDraw.ImageDraw):
 if __name__ == "__main__":
     img = Image.new('RGB', (5000, 5000), (0, 0, 0))
     figures = Figures(im=img)
-    figures.von_koch_curve_flake((2500, 2500), 2000, 6)
-    img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
-
-    img = Image.new('RGB', (5000, 5000), (255, 255, 255))
-    figures = Lsystem(im=img)
-    figures.state.x, figures.state.y = 4000, 4000
-    figures.draw_l("F", {"F": "F+F-F", },
-                   {"+": figures.left(pi * 2 / 3), '-': figures.right(pi * 2 / 3), "F": figures.forward(50), }, 7,
-                   (255, 0, 0), 2)
-    figures._left(2*pi/3)
-    figures.draw_l("F", {"F": "F+F-F", },
-                   {"+": figures.left(pi * 2 / 3), '-': figures.right(pi * 2 / 3), "F": figures.forward(50), }, 7,
-                   (0, 255, 0, 2))
-    figures._left(2*pi/3)
-    figures.draw_l("F", {"F": "F+F-F", },
-                   {"+": figures.left(pi * 2 / 3), '-': figures.right(pi * 2 / 3), "F": figures.forward(50), }, 7,
-                   (0, 0, 255), 2)
+    figures.blanc_manger((1000, 1000), (4000, 4000), 7)
     img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
