@@ -3,6 +3,7 @@
 function documentation
 ======================
 
-.. automodule:: betterTurtle
+.. automodule:: main
    :members:
    :undoc-members:
+   :private-members:

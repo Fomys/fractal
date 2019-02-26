@@ -268,6 +268,10 @@ class Turtle:
     def left(self, angle):
         self._turn(-angle)
 
+    def set_pixel(self, coordinate, colour):
+        self.draw.point(coordinate, colour if colour else self._state["colour"])
+
+
     def goto(self, coordinates):
         self._set_coordinates(coordinates)
         self.draw.line(coordinates)
@@ -306,7 +310,7 @@ class Turtle:
 
 
 if __name__ == "__main__":
-    t = Turtle()
+    t = Turtle(size=(10000, 10000), resolution=1)
     t.set_position((0, 0))
-    t.fractal.outline(6, 2, 5)
-    t.save("test.jpg")
+    t.fractal.outline(8, 40, 4)
+    t.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
