@@ -1,6 +1,5 @@
 import cmath
 from math import atan, cos, sin, pi
-from typing import List, Tuple
 
 from PIL import Image, ImageDraw
 
@@ -17,7 +16,7 @@ A lib to draw fractals on pillow image
 class State:
     """State of Lsystem"""
     width: int
-    color: Tuple[int, int, int]
+    color: tuple[int, int, int]
     angle: int
     y: int
     x: int
@@ -45,7 +44,7 @@ class State:
 class Lsystem(ImageDraw.ImageDraw):
     """Draw a L system"""
     state: State
-    states: List[State]
+    states: list[State]
 
     def __init__(self, *args, **kwargs):
         """Initialisation
@@ -199,7 +198,7 @@ class Figures(ImageDraw.ImageDraw):
         :param point: Point to convert
         :type point: complex
 
-        :return: Tuple representation of point
+        :return: tuple representation of point
         :rtype: tuple(float, float)"""
         return point.real, point.imag
 
