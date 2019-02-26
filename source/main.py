@@ -1,4 +1,5 @@
 import cmath
+import copy
 from math import atan, cos, sin, pi
 
 from PIL import Image, ImageDraw
@@ -16,7 +17,7 @@ A lib to draw fractals on pillow image
 class State:
     """State of Lsystem"""
     width: int
-    color: tuple[int, int, int]
+    color: tuple
     angle: int
     y: int
     x: int
@@ -40,11 +41,128 @@ class State:
         self.color = (255, 255, 255)
         self.width = 0
 
+    def __str__(self):
+        return str(self.x)
+
+    def __repr__(self):
+        return self.__str__()
+
 
 class Lsystem(ImageDraw.ImageDraw):
     """Draw a L system"""
     state: State
-    states: list[State]
+    states: list
+
+    def dragon(self, size, recursions, color=None, width=0):
+        """Trace Dragon curve
+
+        :param size: Lenght of a segment
+        :param recursions: number of recursions
+        :param color: color of drawing
+        :param width: width of drawing
+        :type size: float
+        :type recursions: int
+        :type color: tuple
+        :type width: int"""
+        self.draw_l("FX",
+                    {"X": "X+YF+",
+                     "Y": "-FX-Y"},
+                    {"-": self.left(pi / 2),
+                     '+': self.right(pi / 2),
+                     "F": self.forward(size),
+                     "Y": self.nothing(),
+                     "X": self.nothing()},
+                    recursions,
+                    color, width)
+
+    def sierpinski_triangle(self, size, recursions, color=None, width=0):
+        """Draw the sierpinski triangle
+
+        :param size: Lenght of a segment
+        :param recursions: number of recursions
+        :param color: color of drawing
+        :param width: width of drawing
+        :type size: float
+        :type recursions: int
+        :type color: tuple
+        :type width: int"""
+        self.draw_l("F-G-G",
+                    {"F": "F-G+F+G-F",
+                     "G": "GG"},
+                    {"-": self.left(pi * 2 / 3),
+                     '+': self.right(pi * 2 / 3),
+                     "F": self.forward(size),
+                     "G": self.forward(size)},
+                    recursions,
+                    color, width)
+
+    def fractal_plant(self, size, recursions, color=None, width=0):
+        """Draw the fractal plant
+
+        :param size: Lenght of a segment
+        :param recursions: number of recursions
+        :param color: color of drawing
+        :param width: width of drawing
+        :type size: float
+        :type recursions: int
+        :type color: tuple
+        :type width: int"""
+        self.draw_l("X",
+                    {"X": "F+[[X]-X]-F[-FX]+X",
+                     "F": "FF"},
+                    {"-": self.left(pi * 5 / 36),
+                     '+': self.right(pi * 5 / 36),
+                     "F": self.forward(size),
+                     "X": self.nothing(),
+                     "[": self.save(),
+                     "]": self.restore()},
+                    recursions,
+                    color, width)
+
+    def koch_curve_right_angle(self, size, recursions, color=None, width=0):
+        """Draw koch curve with right angle
+
+        :param size: Lenght of a segment
+        :param recursions: number of recursions
+        :param color: color of drawing
+        :param width: width of drawing
+        :type size: float
+        :type recursions: int
+        :type color: tuple
+        :type width: int"""
+        self.draw_l("F",
+                    {"F": "F+F-F-F+F"},
+                    {"-": self.left(pi / 2),
+                     '+': self.right(pi / 2),
+                     "F": self.forward(size),
+                     "[": self.save(),
+                     "]": self.restore()},
+                    recursions,
+                    color, width)
+
+    def fractal_binary_tree(self, size, recursions, color=None, width=0):
+        """Draw fractal binary tree
+
+        :param size: Lenght of a segment
+        :param recursions: number of recursions
+        :param color: color of drawing
+        :param width: width of drawing
+        :type size: float
+        :type recursions: int
+        :type color: tuple
+        :type width: int"""
+        self.draw_l("0",
+                    {"1": "11",
+                     "0": "1[-0]+0"},
+                    {"-": self.left(pi / 2),
+                     '+': self.right(pi / 2),
+                     "0": self.forward(size),
+                     "1": self.forward(size),
+                     "[": self.save(),
+                     "]": self.restore()},
+                    recursions,
+                    color, width)
+
 
     def __init__(self, *args, **kwargs):
         """Initialisation
@@ -91,12 +209,11 @@ class Lsystem(ImageDraw.ImageDraw):
 
     def _save(self):
         """Save state of pen"""
-        self.states.append(self.state)
+        self.states.append(copy.deepcopy(self.state))
 
     def _restore(self):
         """Restore last pen state"""
-        self.state = self.states[-1]
-        del self.states[-1]
+        self.state = self.states.pop()
 
     def draw_l(self, start, replacement, constants, nb_recursive, color=(255, 255, 255), width=0):
         """Draw a L system
@@ -111,14 +228,19 @@ class Lsystem(ImageDraw.ImageDraw):
         :type replacement: dict
         :type constants: dict
         :type nb_recursive: int
-        :type color: tuple(int, int, int)
+        :type color: tuple
         :type width: int
         """
         self.state.color = color
         self.state.width = width
         for i in range(nb_recursive):
-            for key, value in replacement.items():
-                start = start.replace(key, value)
+            newstart = ""
+            for carac in start:
+                if carac in replacement:
+                    newstart += replacement[carac]
+                else:
+                    newstart += carac
+            start = newstart
         for item in start:
             constants[item]()
 
@@ -176,6 +298,9 @@ class Lsystem(ImageDraw.ImageDraw):
         :rtype: lambda"""
         return lambda: self._restore()
 
+    def nothing(self):
+        return lambda: None
+
 
 class Figures(ImageDraw.ImageDraw):
     """A lot of function to create some well-know shapes"""
@@ -185,7 +310,7 @@ class Figures(ImageDraw.ImageDraw):
         """Transform tuple to complex
 
         :param point: Point to convert
-        :type point: tuple(float, float)
+        :type point: tuple
 
         :return: Complex representation of point
         :rtype: complex"""
@@ -199,7 +324,7 @@ class Figures(ImageDraw.ImageDraw):
         :type point: complex
 
         :return: tuple representation of point
-        :rtype: tuple(float, float)"""
+        :rtype: tuple"""
         return point.real, point.imag
 
     def rotation(self, point, center=0j, angle=0):
@@ -213,7 +338,7 @@ class Figures(ImageDraw.ImageDraw):
         :type angle: float
 
         :return: Rotated point (or list of rotated points)
-        :rtype: tuple(int, int) or list of tuples"""
+        :rtype: tuple or list of tuples"""
         if type(center) != complex:
             center = self.point_to_complex(center)
         if type(point) == list:
@@ -233,7 +358,7 @@ class Figures(ImageDraw.ImageDraw):
         :type size: float
 
         :return: Homothety of point (or list of homothety of points)
-        :rtype: tuple(int, int) or list of tuples"""
+        :rtype: tuple or list of tuples"""
         if type(center) != complex:
             center = self.point_to_complex(center)
         if type(point) == list:
@@ -251,7 +376,7 @@ class Figures(ImageDraw.ImageDraw):
         :type vect: tuple or complex
 
         :return: Translated point (or list of translated points)
-        :rtype: tuple(int, int) or list of tuples"""
+        :rtype: tuple or list of tuples"""
         if type(vect) != complex:
             vect = self.point_to_complex(vect)
         if type(point) == list:
@@ -322,7 +447,7 @@ class Figures(ImageDraw.ImageDraw):
         """Make a tuple of float coordinate into tuple of int coordinate
 
         :param value: Tuple to convert
-        :type value: tuple(float, float)
+        :type value: tuple
 
         :return: new tuple with int values
         :rtype: tuple(int, int)"""
@@ -362,6 +487,9 @@ class Figures(ImageDraw.ImageDraw):
 
 if __name__ == "__main__":
     img = Image.new('RGB', (5000, 5000), (255, 255, 255))
-    figures = Figures(im=img)
-    figures.blanc_manger((2000, 2000), (3000, 3000), 7, color=(0, 0, 0), width=2)
+    """figures = Figures(im=img)
+    figures.blanc_manger((2000, 2000), (3000, 3000), 7, color=(0, 0, 0), width=2)"""
+    figures = Lsystem(im=img)
+    figures.state.x, figures.state.y = 2500, 2500
+    figures.fractal_binary_tree(50, 4, color=(255, 0, 0))
     img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")

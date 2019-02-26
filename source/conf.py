@@ -20,8 +20,8 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'fractal'
-copyright = '2019, Suwako TheDevKiller Fomys'
-author = 'Suwako TheDevKiller Fomys'
+copyright = '2019, Les Collaborateurs Illégitimes'
+author = 'Les Collaborateurs Illégitimes'
 
 # The short X.Y version
 version = ''
@@ -134,7 +134,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'fractal.tex', 'fractal Documentation',
-     'Suwako TheDevKiller Fomys', 'manual'),
+     author, 'manual'),
 ]
 
 

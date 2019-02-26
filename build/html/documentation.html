@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>function documentation &mdash; fractal 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to fractal’s documentation!" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> fractal
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">function documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">fractal</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>function documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/documentation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-main">
+<span id="function-documentation"></span><h1>function documentation<a class="headerlink" href="#module-main" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="main.Figures">
+<em class="property">class </em><code class="descclassname">main.</code><code class="descname">Figures</code><span class="sig-paren">(</span><em>im</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures" title="Permalink to this definition">¶</a></dt>
+<dd><p>A lot of function to create some well-know shapes</p>
+<dl class="staticmethod">
+<dt id="main.Figures._int">
+<em class="property">static </em><code class="descname">_int</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures._int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures._int" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a tuple of float coordinate into tuple of int coordinate</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<em>tuple</em>) – Tuple to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">new tuple with int values</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple(int, int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.blanc_manger">
+<code class="descname">blanc_manger</code><span class="sig-paren">(</span><em>origin</em>, <em>finish</em>, <em>iterations</em>, <em>color=None</em>, <em>width=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.blanc_manger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.blanc_manger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trace blanc manger curve</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>origin</strong> (<em>tuple</em>) – coordinate of the starting point</li>
+<li><strong>finish</strong> (<em>tuple</em>) – coordinate of the ending point</li>
+<li><strong>iterations</strong> (<em>int</em>) – iterations for the drawings</li>
+<li><strong>color</strong> (<em>tuple</em>) – color to use for the lines</li>
+<li><strong>width</strong> (<em>int</em>) – the line width, in pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="main.Figures.complex_to_point">
+<em class="property">static </em><code class="descname">complex_to_point</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.complex_to_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.complex_to_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform tuple to complex</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> (<em>complex</em>) – Point to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple representation of point</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.homothety">
+<code class="descname">homothety</code><span class="sig-paren">(</span><em>point</em>, <em>center=0j</em>, <em>size=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.homothety"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.homothety" title="Permalink to this definition">¶</a></dt>
+<dd><p>Homothety of point in complex plane</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point</strong> (<em>tuple</em><em> or </em><em>complex</em>) – point (or list of point) to make homothety</li>
+<li><strong>center</strong> (<em>tuple</em><em> or </em><em>complex</em>) – center of homothety</li>
+<li><strong>size</strong> (<em>float</em>) – size of homothety</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Homothety of point (or list of homothety of points)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple or list of tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="main.Figures.point_to_complex">
+<em class="property">static </em><code class="descname">point_to_complex</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.point_to_complex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.point_to_complex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform tuple to complex</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>point</strong> (<em>tuple</em>) – Point to convert</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Complex representation of point</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">complex</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.rotation">
+<code class="descname">rotation</code><span class="sig-paren">(</span><em>point</em>, <em>center=0j</em>, <em>angle=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.rotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate point in complex plane</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point</strong> (<em>tuple</em><em> or </em><em>complex</em>) – point (or list of point) to rotate</li>
+<li><strong>center</strong> (<em>tuple</em><em> or </em><em>complex</em>) – center of rotation</li>
+<li><strong>angle</strong> (<em>float</em>) – angle of rotation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Rotated point (or list of rotated points)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple or list of tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.translation">
+<code class="descname">translation</code><span class="sig-paren">(</span><em>point</em>, <em>vect</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate point in complex plane</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point</strong> (<em>tuple</em><em> or </em><em>complex</em>) – point (or list of point) to translate</li>
+<li><strong>vect</strong> (<em>tuple</em><em> or </em><em>complex</em>) – vector of translation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Translated point (or list of translated points)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple or list of tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.von_koch_curve">
+<code class="descname">von_koch_curve</code><span class="sig-paren">(</span><em>origin</em>, <em>finish</em>, <em>iterations=1</em>, <em>color=None</em>, <em>width=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.von_koch_curve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.von_koch_curve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw thee von koch flake on image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>origin</strong> (<em>tuple</em>) – coordinate of the starting point</li>
+<li><strong>finish</strong> (<em>tuple</em>) – coordinate of the ending point</li>
+<li><strong>iterations</strong> (<em>int</em>) – iterations for the drawings</li>
+<li><strong>color</strong> (<em>tuple</em>) – color to use for the lines</li>
+<li><strong>width</strong> (<em>int</em>) – the line width, in pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Figures.von_koch_curve_flake">
+<code class="descname">von_koch_curve_flake</code><span class="sig-paren">(</span><em>origin</em>, <em>radius</em>, <em>iterations</em>, <em>angle=0</em>, <em>color=None</em>, <em>width=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Figures.von_koch_curve_flake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Figures.von_koch_curve_flake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw thee von koch flake on image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>origin</strong> (<em>tuple</em>) – coordinate of the center of circumscribed circle of main triangle</li>
+<li><strong>radius</strong> (<em>float</em>) – radius of circumscribed circle of main triangle</li>
+<li><strong>iterations</strong> (<em>int</em>) – iterations for the drawings</li>
+<li><strong>angle</strong> (<em>float</em>) – rotation of main triangle</li>
+<li><strong>color</strong> (<em>tuple</em>) – color to use for the lines</li>
+<li><strong>width</strong> (<em>int</em>) – the line width, in pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="main.Lsystem">
+<em class="property">class </em><code class="descclassname">main.</code><code class="descname">Lsystem</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a L system</p>
+<dl class="method">
+<dt id="main.Lsystem._backward">
+<code class="descname">_backward</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Backward pen of distance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>distance</strong> (<em>float</em>) – Distance to backward</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem._forward">
+<code class="descname">_forward</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forward pen of distance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>distance</strong> (<em>float</em>) – Distance to forward</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem._left">
+<code class="descname">_left</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn pen to left of angle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<em>float</em>) – Angle to rotate</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem._restore">
+<code class="descname">_restore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._restore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._restore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restore last pen state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem._right">
+<code class="descname">_right</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._right"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn pen to right of angle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<em>float</em>) – Angle to rotate</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem._save">
+<code class="descname">_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem._save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem._save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save state of pen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.backward">
+<code class="descname">backward</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which make pen backward of distance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>distance</strong> (<em>float</em>) – Distance to build function</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">lambda function to make pen backward</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.draw_l">
+<code class="descname">draw_l</code><span class="sig-paren">(</span><em>start</em>, <em>replacement</em>, <em>constants</em>, <em>nb_recursive</em>, <em>color=(255</em>, <em>255</em>, <em>255)</em>, <em>width=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.draw_l"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.draw_l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a L system</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>start</strong> (<em>str</em>) – Axiome</li>
+<li><strong>replacement</strong> (<em>dict</em>) – Dictionary which contain replacement values (F-&gt;F+F-F-F+F)</li>
+<li><strong>constants</strong> (<em>dict</em>) – Dictionary which contain all elements with there function</li>
+<li><strong>nb_recursive</strong> (<em>int</em>) – Number of recursion</li>
+<li><strong>color</strong> (<em>tuple</em>) – Color to use for the drawing</li>
+<li><strong>width</strong> (<em>int</em>) – The line width, in pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.forward">
+<code class="descname">forward</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which make pen forward of distance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>distance</strong> (<em>float</em>) – Distance to build function</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">lambda function to make pen forward</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.left">
+<code class="descname">left</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which make pen turning of angle radians to left</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<em>float</em>) – Angle to build function</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">lambda function to make pen turning left</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.restore">
+<code class="descname">restore</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.restore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.restore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which restore state of pen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">lambda function to restore pen state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.right">
+<code class="descname">right</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.right"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which make pen turning of angle radians to right</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> (<em>float</em>) – Angle to build function</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">lambda function to make pen turning right</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="main.Lsystem.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#Lsystem.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.Lsystem.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a lambda function which save state of pen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">lambda function to save pen state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">lambda</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="main.State">
+<em class="property">class </em><code class="descclassname">main.</code><code class="descname">State</code><a class="reference internal" href="_modules/main.html#State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>State of Lsystem</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to fractal’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Les Collaborateurs Illégitimes.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

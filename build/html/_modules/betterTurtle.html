@@ -1,0 +1,523 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>betterTurtle &mdash; fractal 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> fractal
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">function documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">fractal</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>betterTurtle</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for betterTurtle</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A new turtle which is faster.</span>
+
+<span class="sd">&gt;&gt;&gt; t = Turtle()</span>
+<span class="sd">&gt;&gt;&gt; t.init()</span>
+<span class="sd">&gt;&gt;&gt; t.set_position((0, 0))</span>
+<span class="sd">&gt;&gt;&gt; t.fractal.outline(6, 2, 5)</span>
+
+<span class="sd">.. autoclass:: Figures</span>
+<span class="sd">   :members:</span>
+<span class="sd">   :undoc-members:</span>
+
+
+<span class="sd">.. autoclass:: Turtle</span>
+<span class="sd">   :members:</span>
+<span class="sd">   :undoc-members:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span>
+
+
+<div class="viewcode-block" id="Figures"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures">[docs]</a><span class="k">class</span> <span class="nc">Figures</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A lot of function to create some well-know shapes</span>
+
+<span class="sd">    :param master: turtle2 to use for draw</span>
+<span class="sd">    :type master: Turtle</span>
+
+<span class="sd">    :returns: Nothing</span>
+<span class="sd">    :rtype: None&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">master</span>
+
+    <span class="k">def</span> <span class="nf">_outline_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_iterations</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Internal function to draw outline of a recursive shape</span>
+
+<span class="sd">        :param number_of_iterations: Number of iteration used to draw</span>
+<span class="sd">        :param length: Size of a single side</span>
+<span class="sd">        :param number_of_sides: Number of sides of the initial shape</span>
+<span class="sd">        :type number_of_iterations: int</span>
+<span class="sd">        :type length: int</span>
+<span class="sd">        :type number_of_sides: int</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">number_of_iterations</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="o">-</span><span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="o">-</span><span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iterations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Figures.regular_polygon"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.regular_polygon">[docs]</a>    <span class="k">def</span> <span class="nf">regular_polygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw a regular polygon</span>
+
+<span class="sd">        :param number_of_sides: Number of sides of the polygon</span>
+<span class="sd">        :param length: Length of a side</span>
+<span class="sd">        :type number_of_sides: int</span>
+<span class="sd">        :type length: int</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_sides</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.poly_repeat"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.poly_repeat">[docs]</a>    <span class="k">def</span> <span class="nf">poly_repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_side</span><span class="p">,</span> <span class="n">density</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw a repetition of a regular polygon</span>
+
+<span class="sd">        :param length: Length of a side</span>
+<span class="sd">        :param number_of_side: Regular polygon&#39;s side number</span>
+<span class="sd">        :param density: quantity of polygon</span>
+<span class="sd">        :type length: int</span>
+<span class="sd">        :type number_of_side: int</span>
+<span class="sd">        :type density: int</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">360.</span> <span class="o">/</span> <span class="n">density</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">density</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">regular_polygon</span><span class="p">(</span><span class="n">number_of_side</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.outline"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.outline">[docs]</a>    <span class="k">def</span> <span class="nf">outline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_iteration</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw outline of a recursive shape</span>
+
+<span class="sd">        :param number_of_iteration: Number of iteration used to draw</span>
+<span class="sd">        :param length: Length of a single side</span>
+<span class="sd">        :param number_of_sides: Number of sides of the initial shape</span>
+<span class="sd">        :type number_of_iteration: int</span>
+<span class="sd">        :type length: int</span>
+<span class="sd">        :type number_of_sides: int</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number_of_sides</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_outline_trace</span><span class="p">(</span><span class="n">number_of_iteration</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_sides</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mf">360.</span> <span class="o">/</span> <span class="n">number_of_sides</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.tree"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.tree">[docs]</a>    <span class="k">def</span> <span class="nf">tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">angles</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw a tree recursively</span>
+
+<span class="sd">        :param length: Length of the root of the tree</span>
+<span class="sd">        :param angles: List of angles for branch</span>
+<span class="sd">        :param factor: Reduce factor for next branch</span>
+<span class="sd">        :param min_size: Minimal length of a branch</span>
+<span class="sd">        :type length: int</span>
+<span class="sd">        :type angles: list</span>
+<span class="sd">        :type factor: float</span>
+<span class="sd">        :type min_size: float</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="n">min_size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">length</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">length</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">angle</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+                <span class="n">base_angle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_angle</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="n">factor</span><span class="p">,</span> <span class="n">angles</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">min_size</span><span class="o">=</span><span class="n">min_size</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_angle</span><span class="p">(</span><span class="n">base_angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.dragon"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.dragon">[docs]</a>    <span class="k">def</span> <span class="nf">dragon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_iteration</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw the dragon curve</span>
+
+<span class="sd">        :param angle: Start angle</span>
+<span class="sd">        :param length: Length of a side</span>
+<span class="sd">        :param number_of_iteration: Number of iteration for the curve</span>
+<span class="sd">        :type length: int</span>
+<span class="sd">        :type number_of_iteration: int</span>
+
+<span class="sd">        :returns: Nothing</span>
+<span class="sd">        :rtype: None&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">number_of_iteration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dragon</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="n">angle</span> <span class="o">*</span> <span class="mi">90</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dragon</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.power"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.power">[docs]</a>    <span class="k">def</span> <span class="nf">power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">base</span>
+        <span class="n">list_powers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">power</span><span class="p">):</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="mf">0.15</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">))</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">k</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="n">list_powers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">list_powers</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="mi">36</span> <span class="o">*</span> <span class="n">i</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Figures.turning_tree"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.turning_tree">[docs]</a>    <span class="k">def</span> <span class="nf">turning_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">angles</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">angles</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">angles</span><span class="p">:</span>
+                <span class="n">angles</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+    <span class="k">def</span> <span class="nf">_koch_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Figures.koch_curve"><a class="viewcode-back" href="../documentation.html#betterTurtle.Figures.koch_curve">[docs]</a>    <span class="k">def</span> <span class="nf">koch_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">number_of_iteration</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">number_of_iteration</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">koch_curve</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">koch_curve</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">right</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">koch_curve</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">left</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">koch_curve</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">,</span> <span class="n">number_of_iteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_koch_curve</span><span class="p">(</span><span class="n">length</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Turtle"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle">[docs]</a><span class="k">class</span> <span class="nc">Turtle</span><span class="p">:</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_calc_center</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="n">AB</span> <span class="o">=</span> <span class="p">(</span><span class="n">distance</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">))))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_x&quot;</span><span class="p">)</span>
+        <span class="n">AC</span> <span class="o">=</span> <span class="p">(</span><span class="n">distance</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">))))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_y&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward_image</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_coordinates</span><span class="p">((</span><span class="n">AB</span><span class="p">,</span> <span class="n">AC</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_forward_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="n">AB</span> <span class="o">=</span> <span class="p">(</span><span class="n">distance</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">))))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_x&quot;</span><span class="p">)</span>
+        <span class="n">AC</span> <span class="o">=</span> <span class="p">(</span><span class="n">distance</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">))))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_y&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">,</span>
+                        <span class="n">AB</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">,</span> <span class="n">AC</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;colour&quot;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_turn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">angle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_set_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">360</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="mi">360</span>
+
+    <span class="k">def</span> <span class="nf">_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_clear_img</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+            <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">)),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">titre</span><span class="o">=</span><span class="s2">&quot;Turtle&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span>
+            <span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;titre&quot;</span><span class="p">:</span> <span class="n">titre</span><span class="p">,</span>
+                        <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span>
+                        <span class="s2">&quot;size_IMG&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">resolution</span><span class="p">),</span>
+                        <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calc_center</span><span class="p">(</span><span class="n">size</span><span class="p">),</span>
+                        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;angle&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                       <span class="s2">&quot;coordinate_x&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;center&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                       <span class="s2">&quot;coordinate_y&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;center&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                       <span class="s2">&quot;colour&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                       <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fractal</span> <span class="o">=</span> <span class="n">Figures</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+            <span class="s1">&#39;RGB&#39;</span><span class="p">,</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;size_IMG&quot;</span><span class="p">)),</span>
+            <span class="p">(</span><span class="mi">255</span><span class="p">,</span>
+             <span class="mi">255</span><span class="p">,</span>
+             <span class="mi">255</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">resolution</span>
+
+<div class="viewcode-block" id="Turtle.forward"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.backward"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.backward">[docs]</a>    <span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="o">-</span><span class="n">distance</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sauvegarde</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_forward_image</span><span class="p">(</span><span class="o">-</span><span class="n">distance</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.right"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.right">[docs]</a>    <span class="k">def</span> <span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_turn</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.left"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.left">[docs]</a>    <span class="k">def</span> <span class="nf">left</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_turn</span><span class="p">(</span><span class="o">-</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.set_pixel"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.set_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">set_pixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinate</span><span class="p">,</span> <span class="n">colour</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">point</span><span class="p">(</span><span class="n">coordinate</span><span class="p">,</span> <span class="n">colour</span> <span class="k">if</span> <span class="n">colour</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;colour&quot;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Turtle.goto"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.goto">[docs]</a>    <span class="k">def</span> <span class="nf">goto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_coordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;coordinate_x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s2">&quot;coordinate_y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Turtle.clear"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clear</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Turtle.set_position"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_coordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.get_position"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.get_position">[docs]</a>    <span class="k">def</span> <span class="nf">get_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coord</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">type_coord</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_x&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">type_coord</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_y&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_x&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;coordinate_y&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.set_angle"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.set_angle">[docs]</a>    <span class="k">def</span> <span class="nf">set_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.get_angle"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.get_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;angle&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Turtle.get_state"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="Turtle.save"><a class="viewcode-back" href="../documentation.html#betterTurtle.Turtle.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">type_img</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">type_img</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Turtle</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">fractal</span><span class="o">.</span><span class="n">outline</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;D:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">louis chauvet</span><span class="se">\\</span><span class="s2">Documents</span><span class="se">\\</span><span class="s2">GitHub</span><span class="se">\\</span><span class="s2">fractale</span><span class="se">\\</span><span class="s2">test.bmp&quot;</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Les Collaborateurs Illégitimes.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
