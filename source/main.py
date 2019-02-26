@@ -1,3 +1,4 @@
+import cmath
 from math import atan, cos, sin, pi
 from typing import List, Tuple
 
@@ -180,7 +181,99 @@ class Lsystem(ImageDraw.ImageDraw):
 class Figures(ImageDraw.ImageDraw):
     """A lot of function to create some well-know shapes"""
 
-    def blanc_manger(self, origin, finish, iterations):
+    @staticmethod
+    def point_to_complex(point):
+        """Transform tuple to complex
+
+        :param point: Point to convert
+        :type point: tuple(float, float)
+
+        :return: Complex representation of point
+        :rtype: complex"""
+        return complex(point[0], point[1])
+
+    @staticmethod
+    def complex_to_point(point):
+        """Transform tuple to complex
+
+        :param point: Point to convert
+        :type point: complex
+
+        :return: Tuple representation of point
+        :rtype: tuple(float, float)"""
+        return point.real, point.imag
+
+    def rotation(self, point, center=0j, angle=0):
+        """Rotate point in complex plane
+
+        :param point: point (or list of point) to rotate
+        :type point: tuple or complex
+        :param center: center of rotation
+        :type center: tuple or complex
+        :param angle: angle of rotation
+        :type angle: float
+
+        :return: Rotated point (or list of rotated points)
+        :rtype: tuple(int, int) or list of tuples"""
+        if type(center) != complex:
+            center = self.point_to_complex(center)
+        if type(point) == list:
+            return [self.rotation(p, center, angle) for p in point]
+        if type(point) != complex:
+            point = self.point_to_complex(point)
+        return self.complex_to_point(cmath.exp(complex(0, 1) * angle) * (point - center) + center)
+
+    def homothety(self, point, center=0j, size=0):
+        """Homothety of point in complex plane
+
+        :param point: point (or list of point) to make homothety
+        :type point: tuple or complex
+        :param center: center of homothety
+        :type center: tuple or complex
+        :param size: size of homothety
+        :type size: float
+
+        :return: Homothety of point (or list of homothety of points)
+        :rtype: tuple(int, int) or list of tuples"""
+        if type(center) != complex:
+            center = self.point_to_complex(center)
+        if type(point) == list:
+            return [self.homothety(p, center, size) for p in point]
+        if type(point) != complex:
+            point = self.point_to_complex(point)
+        return self.complex_to_point(size * (point - center) + center)
+
+    def translation(self, point, vect):
+        """Translate point in complex plane
+
+        :param point: point (or list of point) to translate
+        :type point: tuple or complex
+        :param vect: vector of translation
+        :type vect: tuple or complex
+
+        :return: Translated point (or list of translated points)
+        :rtype: tuple(int, int) or list of tuples"""
+        if type(vect) != complex:
+            vect = self.point_to_complex(vect)
+        if type(point) == list:
+            return [self.translation(p, vect) for p in point]
+        if type(point) != complex:
+            point = self.point_to_complex(point)
+        return self.complex_to_point(point + vect)
+
+    def blanc_manger(self, origin, finish, iterations, color=None, width=0):
+        """Trace blanc manger curve
+
+        :param origin: coordinate of the starting point
+        :param finish: coordinate of the ending point
+        :param iterations: iterations for the drawings
+        :param color: color to use for the lines
+        :param width: the line width, in pixels
+        :type origin: tuple
+        :type finish: tuple
+        :type iterations: int
+        :type color: tuple
+        :type width: int"""
         lenght_theoric = 2 ** iterations
         length = (((origin[0] - finish[0]) ** 2 + (origin[1] - finish[1]) ** 2) ** 0.5)
 
@@ -197,7 +290,10 @@ class Figures(ImageDraw.ImageDraw):
             ((i / lenght_theoric) * length,
              (blanc_manger(i / lenght_theoric, iterations)) * length)
             for i in range(lenght_theoric + 1)]
-        self.line(points)
+
+        points = self.rotation(points, (0, 0), pi / 4)
+        points = self.translation(points, origin)
+        self.line(points, color, width)
 
     def von_koch_curve_flake(self, origin, radius, iterations, angle=0, color=None, width=0):
         """Draw thee von koch flake on image.
@@ -266,7 +362,7 @@ class Figures(ImageDraw.ImageDraw):
 
 
 if __name__ == "__main__":
-    img = Image.new('RGB', (5000, 5000), (0, 0, 0))
+    img = Image.new('RGB', (5000, 5000), (255, 255, 255))
     figures = Figures(im=img)
-    figures.blanc_manger((1000, 1000), (4000, 4000), 7)
+    figures.blanc_manger((2000, 2000), (3000, 3000), 7, color=(0, 0, 0), width=2)
     img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
