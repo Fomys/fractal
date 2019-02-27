@@ -420,7 +420,7 @@ class Figures(ImageDraw.ImageDraw):
         self.line(points, color, width)
 
     def von_koch_curve_flake(self, origin, radius, iterations, angle=0, color=None, width=0):
-        """Draw thee von koch flake on image.
+        """Draw the von koch flake on image.
 
         :param origin: coordinate of the center of circumscribed circle of main triangle
         :param radius: radius of circumscribed circle of main triangle
@@ -454,7 +454,7 @@ class Figures(ImageDraw.ImageDraw):
         return int(value[0]), int(value[1])
 
     def von_koch_curve(self, origin, finish, iterations=1, color=None, width=0):
-        """Draw thee von koch flake on image.
+        """Draw the von koch curve on image.
 
         :param origin: coordinate of the starting point
         :param finish: coordinate of the ending point
@@ -470,7 +470,10 @@ class Figures(ImageDraw.ImageDraw):
         two_third = origin[0] + (finish[0] - origin[0]) * 2 / 3, origin[1] + (finish[1] - origin[1]) * 2 / 3
 
         length = (((origin[0] - finish[0]) ** 2 + (origin[1] - finish[1]) ** 2) ** 0.5) / 3
-        angle = atan((finish[1] - origin[1]) / (finish[0] - origin[0]))
+        if finish[0] == origin[0]:
+            angle = pi/2
+        else:
+            angle = atan((finish[1] - origin[1]) / (finish[0] - origin[0]))
         angle_total = angle + pi / 3
         if origin[0] > finish[0]:
             angle_total += pi
@@ -489,7 +492,6 @@ if __name__ == "__main__":
     img = Image.new('RGB', (5000, 5000), (255, 255, 255))
     """figures = Figures(im=img)
     figures.blanc_manger((2000, 2000), (3000, 3000), 7, color=(0, 0, 0), width=2)"""
-    figures = Lsystem(im=img)
-    figures.state.x, figures.state.y = 2500, 2500
-    figures.fractal_binary_tree(50, 4, color=(255, 0, 0))
+    figures = Figures(im=img)
+    figures.von_koch_curve_flake((2500, 2500), 1, 5)
     img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
