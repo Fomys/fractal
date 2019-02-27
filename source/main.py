@@ -172,6 +172,17 @@ class Lsystem(ImageDraw.ImageDraw):
         self.states = []
         self.state = State()
 
+    def set_pos(self, x, y):
+        """Set position of pen
+
+        :param x: x coordinate
+        :param y: y coordinate
+        :type x: float
+        :type y: float"""
+
+        self.state.x = x
+        self.state.y = y
+
     def _right(self, angle):
         """Turn pen to right of angle
 
@@ -415,7 +426,11 @@ class Figures(ImageDraw.ImageDraw):
              (blanc_manger(i / lenght_theoric, iterations)) * length)
             for i in range(lenght_theoric + 1)]
 
-        points = self.rotation(points, (0, 0), pi / 4)
+        if finish[0] == origin[0]:
+            angle = pi/2
+        else:
+            angle = atan((finish[1] - origin[1]) / (finish[0] - origin[0]))
+        points = self.rotation(points, (0, 0), angle)
         points = self.translation(points, origin)
         self.line(points, color, width)
 
@@ -493,5 +508,5 @@ if __name__ == "__main__":
     """figures = Figures(im=img)
     figures.blanc_manger((2000, 2000), (3000, 3000), 7, color=(0, 0, 0), width=2)"""
     figures = Figures(im=img)
-    figures.von_koch_curve_flake((2500, 2500), 1, 5)
+    figures.blanc_manger((1000, 2500), (4000, 2500), 5, color=(0, 0, 0), width=3)
     img.save("D:\\Users\\louis chauvet\\Documents\\GitHub\\fractale\\test.bmp")
